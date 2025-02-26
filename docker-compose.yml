@@ -1,0 +1,68 @@
+services:
+  # Symfony Backend
+  backend:
+    build:
+      context: ./backend
+    container_name: symfony_backend
+    volumes:
+      - ./backend/symfony_app:/var/www/symfony
+    ports:
+      - "9001:9000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+    extra_hosts:
+      host.docker.internal: host-gateway
+
+
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./backend/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/symfony_app:/var/www/symfony
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    extra_hosts:
+      host.docker.internal: host-gateway
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+    container_name: react_frontend
+    volumes:
+      - ./frontend/react_app:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: symfony_db
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3307:3307"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
