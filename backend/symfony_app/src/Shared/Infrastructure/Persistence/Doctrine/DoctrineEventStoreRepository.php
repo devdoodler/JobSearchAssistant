@@ -27,7 +27,7 @@ class DoctrineEventStoreRepository implements EventStoreRepository
             $event::EVENT_NAME,
             $event->version,
             $event->occurredAt,
-            json_encode($event)
+            json_encode($event, JSON_UNESCAPED_UNICODE)
         );
 
         $this->entityManager->persist($eventEntity);

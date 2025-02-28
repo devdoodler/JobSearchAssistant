@@ -6,7 +6,7 @@ namespace App\JobApplication\Domain\ValueObject;
 
 final readonly class Details
 {
-    private const int DETAILS_MAX_LENGTH = 1500;
+    private const int DETAILS_MAX_LENGTH = 11500;
 
     public function __construct(private string $details)
     {
