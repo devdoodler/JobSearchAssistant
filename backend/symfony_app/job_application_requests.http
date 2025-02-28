@@ -1,0 +1,22 @@
+### Add Job Application (POST /job-application/add)
+POST http://localhost/job-application/add
+Content-Type: application/json
+
+{
+  "id": 1,
+  "company": "Tech Company",
+  "position": "Software Engineer",
+  "details": "A description of the job."
+}
+
+###
+
+### Submit Job Application (POST /job-application/submit)
+POST http://localhost/job-application/submit
+Content-Type: application/json
+
+{
+  "id": 1,
+  "submitDate": "2025-02-28 12:00",
+  "comment": "Excited about this opportunity!"
+}

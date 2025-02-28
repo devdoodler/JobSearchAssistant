@@ -21,7 +21,7 @@ class JobApplication extends AggregateRoot
     private DateTime $submitDate;
 
     public function __construct(
-        int $id
+        int $id,
     ) {
         $this->id = $id;
 
@@ -34,9 +34,7 @@ class JobApplication extends AggregateRoot
         Position $position,
         Details $details,
     ): self {
-        //$jobApplication = new self($id);
-//        $jobApplication->record(
-            $this->record(
+        $this->record(
             JobApplicationAdded::occur(
                 $id,
                 $this->version()->next(),

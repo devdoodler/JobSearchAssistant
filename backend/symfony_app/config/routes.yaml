@@ -3,3 +3,6 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+job_application:
+    resource: '../src/JobApplication/Interface/Http/Controller/'
+    type: attribute

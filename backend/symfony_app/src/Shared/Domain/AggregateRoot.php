@@ -6,6 +6,7 @@ namespace App\Shared\Domain;
 
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Version;
+use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEventStoreRepository;
 
 abstract class AggregateRoot
 {
