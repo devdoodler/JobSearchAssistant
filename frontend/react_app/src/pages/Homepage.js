@@ -3,6 +3,8 @@ import request from "../utils/request";
 import AddJobApplication from './AddJobApplication';
 
 export default function Homepage() {
+    const [myResponse, setMyResponse] = useState('');
+
     useEffect(() => {
         async function fetchData() {
             try {
