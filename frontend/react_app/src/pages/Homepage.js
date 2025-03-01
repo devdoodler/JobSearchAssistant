@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import request from "../utils/request";
+import AddJobApplication from './AddJobApplication';
 
 export default function Homepage() {
-    const [myResponse, setMyResponse] = useState('');
-
     useEffect(() => {
         async function fetchData() {
             try {
@@ -19,6 +18,10 @@ export default function Homepage() {
     }, []);
 
     return (
-        <div>Job search Assistant</div>
+        <div>Job search Assistant
+            <p>
+                <AddJobApplication />
+            </p>
+        </div>
     );
 }
