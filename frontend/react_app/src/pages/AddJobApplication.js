@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import request from "../utils/request";
 
-const AddJobApplication = () => {
+export default function AddJobApplication({ onAddSuccess }) {
     const [companyName, setCompanyName] = useState('');
     const [positionTitle, setPositionTitle] = useState('');
     const [jobDescription, setJobDescription] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
@@ -18,7 +17,6 @@ const AddJobApplication = () => {
         };
 
         try {
-            // Send POST request to backend API to add job application
             const response = await request.post('/job-application/add', data, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,15 +25,11 @@ const AddJobApplication = () => {
 
             // If successful, handle success response
             if (response.status === 201) {
-                setSuccessMessage('Job application added successfully!');
-                setErrorMessage('');
-                setCompanyName('');
-                setPositionTitle('');
-                setJobDescription('');
+                const jobId = response.data.id;
+                onAddSuccess(jobId);
             }
         } catch (error) {
             setErrorMessage('There was an error adding the job application.');
-            setSuccessMessage('');
         }
     };
 
@@ -75,10 +69,7 @@ const AddJobApplication = () => {
                 <button type="submit">Add Job Application</button>
             </form>
 
-            {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
             {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
         </div>
     );
 };
-
-export default AddJobApplication;

@@ -44,7 +44,10 @@ class JobApplicationController extends AbstractController
             );
 
             return new JsonResponse(
-                ['message' => 'Job application added successfully'],
+                [
+                    'message' => 'Job application added successfully',
+                    'id' => 1 //TODO: change to real id
+                ],
                 JsonResponse::HTTP_CREATED
             );
 

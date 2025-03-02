@@ -1,29 +1,24 @@
-import { useEffect, useState } from 'react';
-import request from "../utils/request";
+import { useState } from 'react';
+import { useNavigate } from "react-router";  // React Router for navigation
 import AddJobApplication from './AddJobApplication';
 
 export default function Homepage() {
-    const [myResponse, setMyResponse] = useState('');
+    const [jobApplicationId, setJobApplicationId] = useState(null);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await request.get('/');
-                const responseData = response.data;
-                setMyResponse(responseData);
-            } catch (error) {
-                setMyResponse('Error fetching data:' . error);
-            }
-        }
-
-        fetchData();
-    }, []);
+    const handleAddSuccess = (jobId) => {
+        setJobApplicationId(jobId);
+        navigate(`/job-application/submit/${jobId}`);
+    };
 
     return (
-        <div>Job search Assistant
-            <p>
-                <AddJobApplication />
-            </p>
+        <div>
+            <h1>Job Search Assistant</h1>
+
+            <AddJobApplication onAddSuccess={handleAddSuccess} />
         </div>
     );
 }
+
+
+
