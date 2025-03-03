@@ -27,7 +27,7 @@ class JobApplicationController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if (!$data || !isset($data['id'], $data['company'], $data['position'], $data['details'])) {
+        if (!$data || !isset($data['company'], $data['position'], $data['details'])) {
             return new JsonResponse(['error' => 'Invalid input data'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -37,7 +37,6 @@ class JobApplicationController extends AbstractController
             $details = Details::create($data['details']);
 
             $jobApplication = $this->jobApplicationService->addJobApplication(
-                $data['id'],
                 $company,
                 $position,
                 $details
@@ -46,7 +45,7 @@ class JobApplicationController extends AbstractController
             return new JsonResponse(
                 [
                     'message' => 'Job application added successfully',
-                    'id' => 1 //TODO: change to real id
+                    'id' => $jobApplication->getId()->toString()
                 ],
                 JsonResponse::HTTP_CREATED
             );
@@ -64,7 +63,7 @@ class JobApplicationController extends AbstractController
         if (!$data || !isset($data['id'], $data['submitDate'], $data['comment'])) {
             return new JsonResponse(['error' => 'Invalid input data'], JsonResponse::HTTP_BAD_REQUEST);
         }
-
+        $data['submitDate'] = str_replace('T', ' ', $data['submitDate']);
         try {
             $submitDate = DateTime::fromString($data['submitDate']);
             $comment = Comment::create($data['comment']);
@@ -80,6 +79,36 @@ class JobApplicationController extends AbstractController
                 JsonResponse::HTTP_OK
             );
 
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/job-application/list', name: 'job_application_list', methods: ['GET'])]
+    public function list(): JsonResponse
+    {
+        try {
+            $contract = [
+                [
+                    "id" => "f2e2d9d8-0fe5-4d1c-a07d-3b622dff999a",
+                    "company" => "Company A",
+                    "eventName" => "job_application_submitted",
+                    "submitDate" => "2024-02-03",
+                ],
+                [
+                    "id" => "e1341355-6f66-4f31-9812-d1a1927191e4",
+                    "company" => "Company B",
+                    "eventName" => "job_application_added",
+                    "submitDate" => null,
+                ],
+            ];
+
+            //$jobApplications = $this->jobApplicationService->getJobApplicationsList();
+
+            return new JsonResponse(
+                ['jobApplications' => $contract],
+                JsonResponse::HTTP_OK
+            );
         } catch (\Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }

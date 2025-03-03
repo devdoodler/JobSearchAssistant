@@ -3,7 +3,6 @@ POST http://localhost/job-application/add
 Content-Type: application/json
 
 {
-  "id": 1,
   "company": "Tech Company",
   "position": "Software Engineer",
   "details": "A description of the job."
@@ -16,7 +15,10 @@ POST http://localhost/job-application/submit
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": "e1341355-6f66-4f31-9812-d1a1927191e4",
   "submitDate": "2025-02-28 12:00",
   "comment": "Excited about this opportunity!"
 }
+
+### Get Job Application (GET /job-application/list)
+GET http://localhost/job-application/list

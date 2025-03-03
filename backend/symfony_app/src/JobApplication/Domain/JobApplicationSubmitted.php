@@ -8,6 +8,7 @@ use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;
 use App\JobApplication\Domain\ValueObject\Details;
+use App\JobApplication\Domain\ValueObject\JobApplicationId;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Version;
@@ -24,7 +25,7 @@ final readonly class JobApplicationSubmitted extends DomainEvent
     public ?string $comment;
 
     public function __construct(
-        int $aggregateId,
+        string $aggregateId,
         int $number,
         int $occurredAt,
         string $submitDate,
@@ -37,13 +38,13 @@ final readonly class JobApplicationSubmitted extends DomainEvent
     }
 
     public static function occur(
-        int $jobApplicationId,
+        JobApplicationId $jobApplicationId,
         Version $aggregateVersion,
         DateTime $submitDate,
         Comment $comment,
     ): self {
         return new self(
-            $jobApplicationId,
+            $jobApplicationId->toString(),
             $aggregateVersion->asNumber(),
             (new DateTimeImmutable())->getTimestamp(),
             $submitDate->toString(),

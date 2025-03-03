@@ -6,6 +6,7 @@ use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;
 use App\JobApplication\Domain\ValueObject\Details;
+use App\JobApplication\Domain\ValueObject\JobApplicationId;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\DomainEvent;
@@ -13,7 +14,7 @@ use App\Shared\Domain\InvalidEventException;
 
 class JobApplication extends AggregateRoot
 {
-    private int $id;
+    private JobApplicationId $id;
     private Company $company;
     private Position $position;
     private Details $details;
@@ -21,7 +22,7 @@ class JobApplication extends AggregateRoot
     private DateTime $submitDate;
 
     public function __construct(
-        int $id,
+        JobApplicationId $id,
     ) {
         $this->id = $id;
 
@@ -29,7 +30,7 @@ class JobApplication extends AggregateRoot
     }
 
     public function add(
-        int $id,
+        JobApplicationId $id,
         Company $company,
         Position $position,
         Details $details,
@@ -48,11 +49,10 @@ class JobApplication extends AggregateRoot
     }
 
     public function submit(
-        int $id,
+        JobApplicationId $id,
         DateTime $submitDate,
         Comment $comment,
     ): self {
-        //$jobApplication = new self($id);
         $this->record(
             JobApplicationSubmitted::occur(
                 $id,
@@ -85,5 +85,10 @@ class JobApplication extends AggregateRoot
     {
         $this->submitDate = DateTime::fromString($event->submitDate);
         $this->comment = Comment::create($event->comment);
+    }
+
+    public function getId(): JobApplicationId
+    {
+        return $this->id;
     }
 }

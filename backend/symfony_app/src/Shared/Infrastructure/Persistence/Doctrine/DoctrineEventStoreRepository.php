@@ -34,7 +34,7 @@ class DoctrineEventStoreRepository implements EventStoreRepository
         $this->entityManager->flush();
     }
 
-    public function getEventsForAggregate(int $aggregateId): array
+    public function getEventsForAggregate(string $aggregateId): array
     {
         $eventEntities = $this->entityManager->getRepository(EventEntity::class)->findBy(
             ['aggregateId' => $aggregateId],

@@ -2,8 +2,10 @@
 
 namespace App\JobApplication\Application;
 
+use App\JobApplication\Domain\ValueObject\JobApplicationId;
 use App\Shared\Domain\Repository\EventStoreRepository;
 use App\JobApplication\Domain\JobApplication;
+use Ramsey\Uuid\Guid\Guid;
 
 class JobApplicationService
 {
@@ -15,11 +17,11 @@ class JobApplicationService
     }
 
     public function addJobApplication(
-        int $id,
             $company,
             $position,
             $details
     ): JobApplication {
+        $id = new JobApplicationId(Guid::uuid4());
         $jobApplication = new JobApplication($id);
         $jobApplication->add($id, $company, $position, $details);
 
@@ -29,13 +31,13 @@ class JobApplicationService
     }
 
     public function submitJobApplication(
-        int $id,
+        string $id,
             $submitDate,
             $comment
     ): JobApplication {
         $jobApplication = $this->reconstitute($id);
 
-        $jobApplication->submit($id, $submitDate, $comment);
+        $jobApplication->submit(new JobApplicationId($id), $submitDate, $comment);
 
         $this->persistEvents($jobApplication);
 
@@ -49,9 +51,9 @@ class JobApplicationService
         }
     }
 
-    private function reconstitute(int $id): JobApplication
+    private function reconstitute(string $id): JobApplication
     {
         $events = $this->eventStoreRepository->getEventsForAggregate($id);
-        return JobApplication::reconstitute($id, ...$events);
+        return JobApplication::reconstitute(new JobApplicationId($id), ...$events);
     }
 }

@@ -14,8 +14,8 @@ class EventEntity
     #[ORM\Column(type: "integer")]
     private int $id;
 
-    #[ORM\Column(type: "integer")]
-    private int $aggregateId;
+    #[ORM\Column(type: "string")]
+    private string $aggregateId;
 
     #[ORM\Column(type: "string")]
     private string $eventName;
@@ -30,7 +30,7 @@ class EventEntity
     private string $data;
 
     public function __construct(
-        int $aggregateId,
+        string $aggregateId,
         string $eventName,
         int $version,
         int $occurredAt,
@@ -48,7 +48,7 @@ class EventEntity
         return $this->id;
     }
 
-    public function getAggregateId(): int
+    public function getAggregateId():string
     {
         return $this->aggregateId;
     }

@@ -16,5 +16,5 @@ interface EventStoreRepository
      * @param int $aggregateId
      * @return DomainEvent[]
      */
-    public function getEventsForAggregate(int $aggregateId): array;
+    public function getEventsForAggregate(string $aggregateId): array;
 }

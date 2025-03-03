@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250228120734 extends AbstractMigration
+final class Version20250303120718 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20250228120734 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE domain_events (id INT AUTO_INCREMENT NOT NULL, aggregate_id INT NOT NULL, event_name VARCHAR(255) NOT NULL, version INT NOT NULL, occurred_at INT NOT NULL, data JSON NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE domain_events (id INT AUTO_INCREMENT NOT NULL, aggregate_id VARCHAR(255) NOT NULL, event_name VARCHAR(255) NOT NULL, version INT NOT NULL, occurred_at INT NOT NULL, data JSON NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void

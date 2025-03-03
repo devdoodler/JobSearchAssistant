@@ -6,6 +6,7 @@ namespace App\JobApplication\Domain;
 
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\Details;
+use App\JobApplication\Domain\ValueObject\JobApplicationId;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Version;
@@ -24,7 +25,7 @@ final readonly class JobApplicationAdded extends DomainEvent
     public string $details;
 
     public function __construct(
-        int $aggregateId,
+        string $aggregateId,
         int $number,
         int $occurredAt,
         string $company,
@@ -39,14 +40,14 @@ final readonly class JobApplicationAdded extends DomainEvent
     }
 
     public static function occur(
-        int $jobApplicationId,
+        JobApplicationId $jobApplicationId,
         Version $aggregateVersion,
         Company $company,
         Position $position,
         Details $details,
     ): self {
         return new self(
-            $jobApplicationId,
+            $jobApplicationId->toString(),
             $aggregateVersion->asNumber(),
             (new DateTimeImmutable())->getTimestamp(),
             $company->getName(),

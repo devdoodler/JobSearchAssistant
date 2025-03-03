@@ -22,7 +22,7 @@ abstract class AggregateRoot
         $this->version = Version::zero();
     }
 
-    public static function reconstitute(int $id, DomainEvent ...$events): static
+    public static function reconstitute(Id $id, DomainEvent ...$events): static
     {
         $aggregate = new static($id);
 
