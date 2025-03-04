@@ -2,7 +2,7 @@
 
 ### Assistant for jobseekers. Stores data and status of submitted job applications 
 
-Information is stored in events, so any moment in the application lifecycle can be recreated.  
+Information is stored in events, so any moment in the job application lifecycle can be recreated.  
   
 Currently implemented events:
 ` Add ` > ` Submit `  
@@ -27,7 +27,7 @@ Currently implemented events:
 
 ### 0.1.0 Pre-alpha
 
-It is possible to add new applications and submit them.
+It is possible to add new applications and submit them. On front you can see all applications.
 
 ## How to run in docker at dev env
 
