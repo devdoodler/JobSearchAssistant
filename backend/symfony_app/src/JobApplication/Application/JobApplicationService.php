@@ -6,15 +6,15 @@ use App\JobApplication\Domain\ValueObject\JobApplicationId;
 use App\Shared\Domain\Repository\EventStoreRepository;
 use App\JobApplication\Domain\JobApplication;
 use Ramsey\Uuid\Guid\Guid;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class JobApplicationService
+
+readonly class JobApplicationService
 {
-    private EventStoreRepository $eventStoreRepository;
-
-    public function __construct(EventStoreRepository $eventStoreRepository)
-    {
-        $this->eventStoreRepository = $eventStoreRepository;
-    }
+    public function __construct(
+        private EventStoreRepository     $eventStoreRepository,
+        private EventDispatcherInterface $eventDispatcher
+    ) {}
 
     public function addJobApplication(
             $company,
@@ -48,6 +48,7 @@ class JobApplicationService
     {
         foreach ($jobApplication->pullEvents() as $event) {
             $this->eventStoreRepository->append($event);
+            $this->eventDispatcher->dispatch($event);
         }
     }
 

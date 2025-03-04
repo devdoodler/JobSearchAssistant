@@ -24,6 +24,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Shared/Infrastructure/Persistence/Doctrine'
                 prefix: 'App\Shared\Infrastructure\Persistence\Doctrine'
                 alias: Shared
+
+            App\JobApplication\Infrastructure\Persistence\Doctrine:
+                type: attribute
+                dir: '%kernel.project_dir%/src/JobApplication/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\JobApplication\Infrastructure\Persistence\Doctrine'
+                is_bundle: false
         controller_resolver:
             auto_mapping: false
 

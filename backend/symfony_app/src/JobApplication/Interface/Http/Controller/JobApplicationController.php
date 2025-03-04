@@ -2,12 +2,14 @@
 
 namespace App\JobApplication\Interface\Http\Controller;
 
+use App\JobApplication\Application\JobApplicationReadService;
 use App\JobApplication\Application\JobApplicationService;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\JobApplication\Domain\ValueObject\Details;
 use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\DateTime;
+use App\JobApplication\Infrastructure\Persistence\Doctrine\JobApplicationReadModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,12 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class JobApplicationController extends AbstractController
 {
-    private JobApplicationService $jobApplicationService;
 
-    public function __construct(JobApplicationService $jobApplicationService)
-    {
-        $this->jobApplicationService = $jobApplicationService;
-    }
+    public function __construct(
+        private readonly JobApplicationService $jobApplicationService,
+        private readonly JobApplicationReadService $jobApplicationReadService,
+    ) {}
 
     #[Route('/job-application/add', name: 'job_application_add', methods: ['POST'])]
     public function add(Request $request): JsonResponse
@@ -88,25 +89,10 @@ class JobApplicationController extends AbstractController
     public function list(): JsonResponse
     {
         try {
-            $contract = [
-                [
-                    "id" => "f2e2d9d8-0fe5-4d1c-a07d-3b622dff999a",
-                    "company" => "Company A",
-                    "eventName" => "job_application_submitted",
-                    "submitDate" => "2024-02-03",
-                ],
-                [
-                    "id" => "e1341355-6f66-4f31-9812-d1a1927191e4",
-                    "company" => "Company B",
-                    "eventName" => "job_application_added",
-                    "submitDate" => null,
-                ],
-            ];
-
-            //$jobApplications = $this->jobApplicationService->getJobApplicationsList();
+            $jobApplications = $this->jobApplicationReadService->getJobApplicationsList();
 
             return new JsonResponse(
-                ['jobApplications' => $contract],
+                ['jobApplications' => $jobApplications],
                 JsonResponse::HTTP_OK
             );
         } catch (\Exception $e) {

@@ -27,9 +27,7 @@ Currently implemented events:
 
 ### 0.1.0 Pre-alpha
 
-It is possible to add new applications and submit them.  
-Events:  
-Add
+It is possible to add new applications and submit them.
 
 ## How to run in docker at dev env
 
