@@ -34,6 +34,7 @@ class JobApplicationEventListener implements EventSubscriberInterface
             JobApplicationAdded::EVENT_NAME,
             $event->position,
             $event->details,
+            $event->comment
 
         );
 

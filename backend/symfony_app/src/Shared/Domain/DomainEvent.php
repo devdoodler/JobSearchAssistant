@@ -11,7 +11,8 @@ abstract readonly class DomainEvent
         public string $name,
         public int $number,
         public int $version,
-        public int $occurredAt
+        public int $occurredAt,
+        public ?string $comment
     ) {
     }
 }

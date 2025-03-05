@@ -19,11 +19,12 @@ readonly class JobApplicationService
     public function addJobApplication(
             $company,
             $position,
-            $details
+            $details,
+            $comment
     ): JobApplication {
         $id = new JobApplicationId(Guid::uuid4());
         $jobApplication = new JobApplication($id);
-        $jobApplication->add($id, $company, $position, $details);
+        $jobApplication->add($id, $company, $position, $details, $comment);
 
         $this->persistEvents($jobApplication);
 

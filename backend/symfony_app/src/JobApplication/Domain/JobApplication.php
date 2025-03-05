@@ -34,6 +34,7 @@ class JobApplication extends AggregateRoot
         Company $company,
         Position $position,
         Details $details,
+        Comment $comment
     ): self {
         $this->record(
             JobApplicationAdded::occur(
@@ -42,6 +43,7 @@ class JobApplication extends AggregateRoot
                 $company,
                 $position,
                 $details,
+                $comment
             )
         );
 
@@ -79,6 +81,7 @@ class JobApplication extends AggregateRoot
         $this->company = Company::create($event->company);
         $this->position = Position::create($event->position);
         $this->details = Details::create($event->details);
+        $this->comment = Comment::create($event->comment);
     }
 
     private function applyJobApplicationSubmitted(JobApplicationSubmitted $event): void

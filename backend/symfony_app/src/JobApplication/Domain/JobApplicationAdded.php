@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\JobApplication\Domain;
 
+use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\Details;
 use App\JobApplication\Domain\ValueObject\JobApplicationId;
@@ -30,13 +31,14 @@ final readonly class JobApplicationAdded extends DomainEvent
         int $occurredAt,
         string $company,
         string $position,
-        string $details
+        string $details,
+        ?string $comment
     ) {
         $this->company = $company;
         $this->position = $position;
         $this->details = $details;
 
-        parent::__construct($aggregateId, self::EVENT_NAME, $number, self::EVENT_VERSION, $occurredAt);
+        parent::__construct($aggregateId, self::EVENT_NAME, $number, self::EVENT_VERSION, $occurredAt, $comment);
     }
 
     public static function occur(
@@ -45,6 +47,7 @@ final readonly class JobApplicationAdded extends DomainEvent
         Company $company,
         Position $position,
         Details $details,
+        Comment $comment
     ): self {
         return new self(
             $jobApplicationId->toString(),
@@ -52,7 +55,8 @@ final readonly class JobApplicationAdded extends DomainEvent
             (new DateTimeImmutable())->getTimestamp(),
             $company->getName(),
             $position->getPosition(),
-            $details->getDetails()
+            $details->getDetails(),
+            $comment->getComment()
         );
     }
 }

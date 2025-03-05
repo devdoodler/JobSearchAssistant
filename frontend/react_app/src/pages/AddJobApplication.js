@@ -5,6 +5,7 @@ export default function AddJobApplication({ onAddSuccess }) {
     const [companyName, setCompanyName] = useState('');
     const [positionTitle, setPositionTitle] = useState('');
     const [jobDescription, setJobDescription] = useState('');
+    const [comment, setComment] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
@@ -14,6 +15,7 @@ export default function AddJobApplication({ onAddSuccess }) {
             company: companyName,
             position: positionTitle,
             details: jobDescription,
+            comment: comment
         };
 
         try {
@@ -66,10 +68,18 @@ export default function AddJobApplication({ onAddSuccess }) {
                     />
                 </div>
 
+                <div>
+                    <label>Comment:</label>
+                    <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    />
+                </div>
+
                 <button type="submit">Add Job Application</button>
             </form>
 
-            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            {errorMessage && <div style={{color: 'red'}}>{errorMessage}</div>}
         </div>
     );
 };

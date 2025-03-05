@@ -29,18 +29,23 @@ class EventEntity
     #[ORM\Column(type: "json")]
     private string $data;
 
+    #[ORM\Column(type: "string", length: 1500, nullable: true)]
+    private ?string $comment;
+
     public function __construct(
         string $aggregateId,
         string $eventName,
         int $version,
         int $occurredAt,
-        string $data
+        string $data,
+        ?string $comment = null
     ) {
         $this->aggregateId = $aggregateId;
         $this->eventName = $eventName;
         $this->version = $version;
         $this->occurredAt = $occurredAt;
         $this->data = $data;
+        $this->comment = $comment;
     }
 
     public function getId(): int
@@ -71,6 +76,11 @@ class EventEntity
     public function getData(): string
     {
         return $this->data;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
     }
 }
 

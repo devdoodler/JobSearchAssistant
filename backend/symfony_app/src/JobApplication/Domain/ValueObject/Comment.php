@@ -6,7 +6,7 @@ namespace App\JobApplication\Domain\ValueObject;
 
 final readonly class Comment
 {
-    private const int COMMENT_MAX_LENGTH = 500;
+    private const int COMMENT_MAX_LENGTH = 1500;
 
     public function __construct(private ?string $comment)
     {

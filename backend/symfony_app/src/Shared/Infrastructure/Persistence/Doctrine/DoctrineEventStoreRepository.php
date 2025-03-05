@@ -27,7 +27,8 @@ class DoctrineEventStoreRepository implements EventStoreRepository
             $event::EVENT_NAME,
             $event->version,
             $event->occurredAt,
-            json_encode($event, JSON_UNESCAPED_UNICODE)
+            json_encode($event, JSON_UNESCAPED_UNICODE),
+            $event->comment
         );
 
         $this->entityManager->persist($eventEntity);
@@ -52,7 +53,8 @@ class DoctrineEventStoreRepository implements EventStoreRepository
                         $eventEntity->getOccurredAt(),
                         $eventData['company'],
                         $eventData['position'],
-                        $eventData['details']
+                        $eventData['details'],
+                        $eventEntity->getComment()
                     );
                     break;
 
@@ -62,7 +64,7 @@ class DoctrineEventStoreRepository implements EventStoreRepository
                         $eventEntity->getVersion(),
                         $eventEntity->getOccurredAt(),
                         $eventData['submitDate'],
-                        $eventData['comment']
+                        $eventEntity->getComment()
                     );
                     break;
 

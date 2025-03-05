@@ -22,8 +22,6 @@ final readonly class JobApplicationSubmitted extends DomainEvent
 
     public string $submitDate;
 
-    public ?string $comment;
-
     public function __construct(
         string $aggregateId,
         int $number,
@@ -32,9 +30,8 @@ final readonly class JobApplicationSubmitted extends DomainEvent
         ?string $comment,
     ) {
         $this->submitDate = $submitDate;
-        $this->comment = $comment;
 
-        parent::__construct($aggregateId, self::EVENT_NAME, $number, self::EVENT_VERSION, $occurredAt);
+        parent::__construct($aggregateId, self::EVENT_NAME, $number, self::EVENT_VERSION, $occurredAt, $comment);
     }
 
     public static function occur(

@@ -20,6 +20,7 @@ class JobApplicationReadService
                 'company' => $jobApplication->getCompany(),
                 'submitDate' => $jobApplication->getSubmitDate(),
                 'eventName' => $jobApplication->getEvent(),
+                'comment' => $jobApplication->getComment(),
             ];
         }, $jobApplications);
     }

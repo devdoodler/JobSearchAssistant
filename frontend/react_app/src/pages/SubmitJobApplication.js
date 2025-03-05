@@ -61,7 +61,6 @@ export default function SubmitJobApplication() {
                     <textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        required
                     ></textarea>
                 </div>
                 <button type="submit">Submit Application</button>

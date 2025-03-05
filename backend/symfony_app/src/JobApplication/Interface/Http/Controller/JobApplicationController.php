@@ -36,11 +36,13 @@ class JobApplicationController extends AbstractController
             $company = Company::create($data['company']);
             $position = Position::create($data['position']);
             $details = Details::create($data['details']);
+            $comment = $data['comment'] ? Comment::create($data['comment']) : Comment::create(null);
 
             $jobApplication = $this->jobApplicationService->addJobApplication(
                 $company,
                 $position,
-                $details
+                $details,
+                $comment
             );
 
             return new JsonResponse(

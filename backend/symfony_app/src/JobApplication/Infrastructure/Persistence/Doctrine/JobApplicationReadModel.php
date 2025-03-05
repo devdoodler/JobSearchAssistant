@@ -40,9 +40,8 @@ class JobApplicationReadModel
         string $event,
         ?string $position = null,
         ?string $details = null,
-        ?string $submitDate = null,
         ?string $comment = null,
-
+        ?string $submitDate = null,
     ) {
         $this->id = $id;
         $this->company = $company;
