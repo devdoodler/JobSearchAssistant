@@ -5,7 +5,7 @@
 Information is stored in events, so any moment in the job application lifecycle can be recreated.  
   
 Currently implemented events:
-` Add ` > ` Submit `  
+` Add ` > ` Submit ` > ` Reject `  
 `Add` - add new application  
 ```json
 {  
@@ -20,6 +20,14 @@ Currently implemented events:
   "id": "e1341355-6f66-4f31-9812-d1a1927191e4",  
   "submitDate": "2025-02-28 12:00",  
   "comment": "Excited about this opportunity!"  
+}  
+```
+
+`Reject` - the application was rejected with comment  
+```json
+{  
+  "id": "e1341355-6f66-4f31-9812-d1a1927191e4",  
+  "comment": "Unfortunately application was rejected"  
 }  
 ```
 
