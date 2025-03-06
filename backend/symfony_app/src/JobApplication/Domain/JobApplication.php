@@ -97,7 +97,7 @@ class JobApplication extends AggregateRoot
         $this->company = Company::create($event->company);
         $this->position = Position::create($event->position);
         $this->details = Details::create($event->details);
-        $this->comment = Comment::create($event->comment);
+        $this->comment = Comment::create($event->comment ?? '');
     }
 
     private function applyJobApplicationRejected(JobApplicationRejected $event): void
@@ -108,7 +108,7 @@ class JobApplication extends AggregateRoot
     private function applyJobApplicationSubmitted(JobApplicationSubmitted $event): void
     {
         $this->submitDate = DateTime::fromString($event->submitDate);
-        $this->comment = Comment::create($event->comment);
+        $this->comment = Comment::create($event->comment ?? '');
     }
 
     public function getId(): JobApplicationId

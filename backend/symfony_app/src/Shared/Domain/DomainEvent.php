@@ -12,7 +12,7 @@ abstract readonly class DomainEvent
         public int $number,
         public int $version,
         public int $occurredAt,
-        public ?string $comment
+        public ?string $comment = null
     ) {
     }
 }

@@ -24,7 +24,7 @@ class JobApplicationReadModel
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $submitDate = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: "string", length: 1500, nullable: true)]
     private ?string $comment = null;
 
     #[ORM\Column(type: "integer")]
