@@ -3,6 +3,7 @@
 namespace App\JobApplication\Infrastructure\Listener;
 
 use App\JobApplication\Domain\JobApplicationAdded;
+use App\JobApplication\Domain\JobApplicationRejected;
 use App\JobApplication\Domain\JobApplicationSubmitted;
 use App\JobApplication\Infrastructure\Persistence\Doctrine\JobApplicationReadModel;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ class JobApplicationEventListener implements EventSubscriberInterface
     {
         return [
             JobApplicationAdded::class => 'onJobApplicationAdded',
+            JobApplicationRejected::class => 'onJobApplicationRejected',
             JobApplicationSubmitted::class => 'onJobApplicationSubmitted',
         ];
     }
@@ -51,6 +53,18 @@ class JobApplicationEventListener implements EventSubscriberInterface
             $readModel->setComment($event->comment);
             $readModel->setVersion($event->version);
             $readModel->setEvent(JobApplicationSubmitted::EVENT_NAME);
+            $this->entityManager->flush();
+        }
+    }
+
+    public function onJobApplicationRejected(JobApplicationRejected $event): void
+    {
+        /** @var JobApplicationReadModel $readModel */
+        $readModel = $this->entityManager->getRepository(JobApplicationReadModel::class)->find($event->aggregateId);
+        if ($readModel) {
+            $readModel->setComment($event->comment);
+            $readModel->setVersion($event->version);
+            $readModel->setEvent(JobApplicationRejected::EVENT_NAME);
             $this->entityManager->flush();
         }
     }

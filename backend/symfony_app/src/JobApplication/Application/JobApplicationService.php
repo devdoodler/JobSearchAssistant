@@ -45,6 +45,19 @@ readonly class JobApplicationService
         return $jobApplication;
     }
 
+    public function rejectJobApplication(
+        string $id,
+               $comment
+    ): JobApplication {
+        $jobApplication = $this->reconstitute($id);
+
+        $jobApplication->reject(new JobApplicationId($id), $comment);
+
+        $this->persistEvents($jobApplication);
+
+        return $jobApplication;
+    }
+
     private function persistEvents(JobApplication $jobApplication): void
     {
         foreach ($jobApplication->pullEvents() as $event) {

@@ -64,6 +64,7 @@ export default function SubmitJobApplication() {
                     ></textarea>
                 </div>
                 <button type="submit">Submit Application</button>
+                <button onClick={() => navigate("/")}>Return to Main Page without submit</button>
             </form>
             {error && <div>{error}</div>}
         </div>

@@ -8,8 +8,6 @@ Content-Type: application/json
   "details": "A description of the job."
 }
 
-###
-
 ### Submit Job Application (POST /job-application/submit)
 POST http://localhost/job-application/submit
 Content-Type: application/json
@@ -22,3 +20,6 @@ Content-Type: application/json
 
 ### Get Job Application (GET /job-application/list)
 GET http://localhost/job-application/list
+
+### Get Job Application details (GET /job-application/{id})
+GET http://localhost/job-application/{id}

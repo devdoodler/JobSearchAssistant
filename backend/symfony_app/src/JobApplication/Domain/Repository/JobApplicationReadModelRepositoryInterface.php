@@ -7,4 +7,6 @@ use App\JobApplication\Infrastructure\Persistence\Doctrine\JobApplicationReadMod
 interface JobApplicationReadModelRepositoryInterface
 {
     public function findAll(): array;
+
+    public function findById(string $id): ?JobApplicationReadModel;
 }

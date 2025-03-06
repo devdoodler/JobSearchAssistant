@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Persistence\Doctrine;
 
 use App\JobApplication\Domain\JobApplicationAdded;
+use App\JobApplication\Domain\JobApplicationRejected;
 use App\JobApplication\Domain\JobApplicationSubmitted;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Repository\EventStoreRepository;
@@ -68,11 +69,36 @@ class DoctrineEventStoreRepository implements EventStoreRepository
                     );
                     break;
 
+                case JobApplicationRejected::EVENT_NAME:
+                    $events[] = new JobApplicationRejected(
+                        $eventEntity->getAggregateId(),
+                        $eventEntity->getVersion(),
+                        $eventEntity->getOccurredAt(),
+                        $eventEntity->getComment()
+                    );
+                    break;
+
                 default:
                     throw new \Exception('Unknown event type');
             }
         }
 
         return $events;
+    }
+
+
+    public function getEvents(string $aggregateId): array
+    {
+        $eventEntities = $this->entityManager->getRepository(EventEntity::class)->findBy(
+            ['aggregateId' => $aggregateId],
+            ['version' => 'ASC']
+        );
+
+//        $events = [];
+//        foreach ($eventEntities as $eventEntity) {
+//            $events[] = json_decode($eventEntity->getData(), true);
+//        }
+
+        return $eventEntities;
     }
 }

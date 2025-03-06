@@ -50,6 +50,21 @@ class JobApplication extends AggregateRoot
         return $this;
     }
 
+    public function reject(
+        JobApplicationId $id,
+        Comment $comment,
+    ): self {
+        $this->record(
+            JobApplicationRejected::occur(
+                $id,
+                $this->version()->next(),
+                $comment,
+            )
+        );
+
+        return $this;
+    }
+
     public function submit(
         JobApplicationId $id,
         DateTime $submitDate,
@@ -71,6 +86,7 @@ class JobApplication extends AggregateRoot
     {
         match ($event::class) {
             JobApplicationAdded::class => $this->applyJobApplicationAdded($event),
+            JobApplicationRejected::class => $this->applyJobApplicationRejected($event),
             JobApplicationSubmitted::class => $this->applyJobApplicationSubmitted($event),
             default => throw new InvalidEventException()
         };
@@ -81,6 +97,11 @@ class JobApplication extends AggregateRoot
         $this->company = Company::create($event->company);
         $this->position = Position::create($event->position);
         $this->details = Details::create($event->details);
+        $this->comment = Comment::create($event->comment);
+    }
+
+    private function applyJobApplicationRejected(JobApplicationRejected $event): void
+    {
         $this->comment = Comment::create($event->comment);
     }
 

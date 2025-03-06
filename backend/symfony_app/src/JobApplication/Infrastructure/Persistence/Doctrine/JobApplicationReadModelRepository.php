@@ -20,4 +20,11 @@ class JobApplicationReadModelRepository implements JobApplicationReadModelReposi
             ->getRepository(JobApplicationReadModel::class)
             ->findAll();
     }
+
+    public function findById(string $id): ?JobApplicationReadModel
+    {
+        return $this->entityManager
+            ->getRepository(JobApplicationReadModel::class)
+            ->find($id);
+    }
 }

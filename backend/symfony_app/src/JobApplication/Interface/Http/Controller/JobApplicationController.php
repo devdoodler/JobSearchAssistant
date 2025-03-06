@@ -36,7 +36,7 @@ class JobApplicationController extends AbstractController
             $company = Company::create($data['company']);
             $position = Position::create($data['position']);
             $details = Details::create($data['details']);
-            $comment = $data['comment'] ? Comment::create($data['comment']) : Comment::create(null);
+            $comment = $data['comment'] ? Comment::create($data['comment']) : Comment::create("");
 
             $jobApplication = $this->jobApplicationService->addJobApplication(
                 $company,
@@ -51,6 +51,32 @@ class JobApplicationController extends AbstractController
                     'id' => $jobApplication->getId()->toString()
                 ],
                 JsonResponse::HTTP_CREATED
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/job-application/reject', name: 'job_application_reject', methods: ['POST'])]
+    public function reject(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data || !isset($data['id'], $data['comment'])) {
+            return new JsonResponse(['error' => 'Invalid input data'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        try {
+            $comment = Comment::create($data['comment']);
+
+            $jobApplication = $this->jobApplicationService->rejectJobApplication(
+                $data['id'],
+                $comment
+            );
+
+            return new JsonResponse(
+                ['message' => 'Job application rejected successfully'],
+                JsonResponse::HTTP_OK
             );
 
         } catch (\Exception $e) {
@@ -97,6 +123,22 @@ class JobApplicationController extends AbstractController
                 ['jobApplications' => $jobApplications],
                 JsonResponse::HTTP_OK
             );
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/job-application/{id}', name: 'job_application_details', methods: ['GET'])]
+    public function details(string $id): JsonResponse
+    {
+        try {
+            $jobApplicationDetails = $this->jobApplicationReadService->getJobApplicationDetails($id);
+
+            if (!$jobApplicationDetails) {
+                return new JsonResponse(['error' => 'Job application not found'], JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            return new JsonResponse($jobApplicationDetails, JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
