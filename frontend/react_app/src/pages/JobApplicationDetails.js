@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router";
 import request from "../utils/request";
+import { getStatus } from "../utils/statusUtils";
 
 export default function JobApplicationDetails() {
     const { id } = useParams();
@@ -25,20 +26,6 @@ export default function JobApplicationDetails() {
 
         fetchJobApplicationDetails();
     }, [id]);
-
-    //TODO: there is in homepage too. Refactor it.
-    const getStatus = (eventName) => {
-        switch (eventName) {
-            case 'job_application_submitted':
-                return 'Submitted';
-            case 'job_application_added':
-                return 'Added';
-            case 'job_application_rejected':
-                return 'Rejected';
-            default:
-                return 'Unknown Status';
-        }
-    };
 
     if (loading) {
         return <div>Loading...</div>;
