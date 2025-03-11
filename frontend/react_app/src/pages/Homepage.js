@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
 import request from "../utils/request";
 import { getStatus } from "../utils/statusUtils";
+import { Card, Button, ListGroup, Spinner } from 'react-bootstrap';
 
 export default function Homepage() {
     const [jobApplications, setJobApplications] = useState([]);
@@ -30,20 +31,35 @@ export default function Homepage() {
     return (
         <div>
             <h1>Your applications</h1>
-            {loading ? <div>Loading...</div> : null}
-            <ul>
-                {jobApplications.map((application) => (
-                    <li key={application.id}>
-                        <strong
-                            style={{cursor: 'pointer', color: 'blue'}}
-                            onClick={() => handleCompanyClick(application.id)}
-                        >
-                            {application.company}
-                        </strong>
-                        : {getStatus(application.eventName)}
-                    </li>
-                ))}
-            </ul>
+            {loading ? (
+                <div className="text-center">
+                    <Spinner animation="border" role="status" />
+                    <span className="sr-only">Loading...</span>
+                </div>
+            ) : (
+                <ListGroup>
+                    {jobApplications.map((application) => {
+                        const { status, className } = getStatus(application.eventName);
+                        return (
+                            <ListGroup.Item
+                                key={application.id}
+                                className="d-flex justify-content-start align-items-center"
+                            >
+                                <span style={{ marginRight: '10px' }}>•</span>
+                                <div
+                                    style={{ cursor: 'pointer', color: 'blue' }}
+                                    onClick={() => handleCompanyClick(application.id)}
+                                >
+                                    {application.company}{' '}
+                                    <span className={className}>
+                                        {status}
+                                    </span>
+                                </div>
+                            </ListGroup.Item>
+                        );
+                    })}
+                </ListGroup>
+            )}
         </div>
-);
+    );
 }

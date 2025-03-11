@@ -16,7 +16,6 @@ export default function JobApplicationDetails() {
                 const response = await request.get(`/job-application/${id}`);
                 setJobApplication(response.data.job_application);
                 setEvents(response.data.events);
-                console.log(response.data);
             } catch (error) {
                 console.log('Error fetching job application details', error);
             } finally {

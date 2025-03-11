@@ -1,12 +1,12 @@
 export const getStatus = (eventName) => {
    switch (eventName) {
       case 'job_application_submitted':
-         return 'Submitted';
+         return { status: 'Submitted', className: 'status-submitted' };
       case 'job_application_added':
-         return 'Added';
+         return { status: 'Added', className: 'status-added' };
       case 'job_application_rejected':
-         return 'Rejected';
+         return { status: 'Rejected', className: 'status-rejected' };
       default:
-         return 'Unknown Status';
+         return { status: 'Unknown Status', className: 'status-unknown' };
    }
 };
