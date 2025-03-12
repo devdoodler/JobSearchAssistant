@@ -12,7 +12,7 @@ export default function JobApplication() {
     };
 
     return (
-        <div>
+        <div style={{ paddingTop: "130px" }}>
             <AddJobApplication onAddSuccess={handleAddSuccess} />
         </div>
     );

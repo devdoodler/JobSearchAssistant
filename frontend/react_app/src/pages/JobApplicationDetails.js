@@ -50,10 +50,14 @@ export default function JobApplicationDetails() {
     };
 
     return (
-        <div>
+        <div style={{ paddingTop: "130px", whiteSpace: "pre-wrap" }}>
             <h1>Job Application Details</h1>
             <p><strong>Company:</strong> {jobApplication.company}</p>
-            <p><strong>Status:</strong> {getStatus(jobApplication.status)}</p>
+            <p><strong>Status:</strong>{' '}
+                <span className={getStatus(jobApplication.status).className}>
+                    {getStatus(jobApplication.status).status}
+                </span>
+            </p>
             <p><strong>Submit Date:</strong> {jobApplication.submitDate}</p>
             <p><strong>Comment:</strong> {jobApplication.comment}</p>
             <button onClick={handleReject}>Reject</button>
@@ -64,7 +68,7 @@ export default function JobApplicationDetails() {
                         const eventData = parseEventData(event.data);
                         return (
                             <li key={index}>
-                                <p><strong>Event:</strong> {getStatus(event.event_name)}</p>
+                                <p><strong>Event:</strong> {getStatus(event.event_name).status}</p>
                                 <p><strong>Comment:</strong> {event.comment || 'No comment'}</p>
                                 <p><strong>Occurred At:</strong> {event.occurred_at}
                                 </p>
@@ -72,7 +76,7 @@ export default function JobApplicationDetails() {
                                 <h4>Event Data:</h4>
                                 <ul>
                                     {Object.entries(eventData).map(([key, value]) => (
-                                        <li key={key}>
+                                        <li key={key} >
                                             <strong>{key}:</strong> {value}
                                         </li>
                                     ))}

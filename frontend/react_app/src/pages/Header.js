@@ -6,24 +6,25 @@ import { ReactComponent as Logo } from './../assets/jsa-logo.svg';
 function Header() {
     return (
         <>
-            <Navbar expand="lg" fixed="top">
+            <Navbar expand="lg" fixed="top" className="bg-white shadow-sm">
                 <Container>
-                    <Nav className="ml-auto d-flex justify-content-center w-100">
+
+                    <Nav className="ml-auto d-flex flex-grow-1 justify-content-center align-items-start">
                         <Nav.Link as={Link} to="/job-application">
                             Add New Application
                         </Nav.Link>
                         <Nav.Link as={Link} to="/">
                             Show All Applications
                         </Nav.Link>
-                        <Nav.Link href="#search">
-                            <i className="fas fa-search disabled"></i> Search
+                        <Nav.Link href="#search" style={{display: 'none'}}>
+                            <i className="fas fa-search"></i> Search
                         </Nav.Link>
+                    </Nav>
+                    <Nav className="d-flex justify-content-center mt-auto pb-2">
+                        <Logo width="250" height="100"/>
                     </Nav>
                 </Container>
             </Navbar>
-            <div className="logo-container text-center mt-0 pt-4">
-                <Logo width="250" height="100" />
-            </div>
         </>
     );
 }

@@ -29,7 +29,7 @@ export default function Homepage() {
     };
 
     return (
-        <div>
+        <div style={{ paddingTop: "130px" }}>
             <h1>Your applications</h1>
             {loading ? (
                 <div className="text-center">
