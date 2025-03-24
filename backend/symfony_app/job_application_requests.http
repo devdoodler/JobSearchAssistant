@@ -5,7 +5,19 @@ Content-Type: application/json
 {
   "company": "Tech Company",
   "position": "Software Engineer",
-  "details": "A description of the job."
+  "details": "A description of the job.",
+  "comment": ""
+}
+
+### Schedule Job Application Interview (POST /job-application/interview/schedule)
+POST http://localhost/job-application/interview/schedule
+Content-Type: application/json
+
+{
+  "id": "e1341355-6f66-4f31-9812-d1a1927191e4",
+  "scheduleDate": "2025-02-28 12:00",
+  "interviewType": "Other",
+  "comment": ""
 }
 
 ### Submit Job Application (POST /job-application/submit)

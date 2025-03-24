@@ -2,15 +2,23 @@
 
 namespace App\JobApplication\Domain;
 
+use App\JobApplication\Domain\Entity\JobInterview;
+use App\JobApplication\Domain\Events\JobApplicationAdded;
+use App\JobApplication\Domain\Events\JobApplicationRejected;
+use App\JobApplication\Domain\Events\JobApplicationSubmitted;
+use App\JobApplication\Domain\Events\JobInterviewScheduled;
 use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;
 use App\JobApplication\Domain\ValueObject\Details;
+use App\JobApplication\Domain\ValueObject\InterviewType;
 use App\JobApplication\Domain\ValueObject\JobApplicationId;
+use App\JobApplication\Domain\ValueObject\JobInterviewId;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\InvalidEventException;
+use Ramsey\Uuid\Guid\Guid;
 
 class JobApplication extends AggregateRoot
 {
@@ -20,6 +28,11 @@ class JobApplication extends AggregateRoot
     private Details $details;
     private Comment $comment;
     private DateTime $submitDate;
+
+    /**
+     * JobInterview[] $interviews
+     **/
+    private array $interviews = [];
 
     public function __construct(
         JobApplicationId $id,
@@ -44,6 +57,34 @@ class JobApplication extends AggregateRoot
                 $position,
                 $details,
                 $comment
+            )
+        );
+
+        return $this;
+    }
+
+    public function interviewSchedule(
+        JobApplicationId $id,
+        DateTime $scheduleDate,
+        InterviewType $interviewType,
+        Comment $comment,
+    ): self {
+        $interviewId = new JobInterviewId(Guid::uuid4());
+        $interview = new JobInterview($interviewId);
+        $interview->schedule(
+            $interviewType,
+            $scheduleDate
+        );
+        $this->interviews[] = $interview;
+
+        $this->record(
+            JobInterviewScheduled::occur(
+                $id,
+                $this->version()->next(),
+                $interviewId,
+                $scheduleDate,
+                $interviewType,
+                $comment,
             )
         );
 
@@ -88,6 +129,7 @@ class JobApplication extends AggregateRoot
             JobApplicationAdded::class => $this->applyJobApplicationAdded($event),
             JobApplicationRejected::class => $this->applyJobApplicationRejected($event),
             JobApplicationSubmitted::class => $this->applyJobApplicationSubmitted($event),
+            JobInterviewScheduled::class => $this->applyJobInterviewScheduled($event),
             default => throw new InvalidEventException()
         };
     }
@@ -109,6 +151,18 @@ class JobApplication extends AggregateRoot
     {
         $this->submitDate = DateTime::fromString($event->submitDate);
         $this->comment = Comment::create($event->comment ?? '');
+    }
+
+    private function applyJobInterviewScheduled(JobInterviewScheduled $event): void
+    {
+        $interview = new JobInterview(new JobInterviewId($event->interviewId));
+        $interview->schedule(
+            InterviewType::create($event->interviewType),
+            DateTime::fromString($event->scheduledDate)
+        );
+
+        $this->interviews[] = $interview;
+//        $this->comment = Comment::create($event->comment ?? '');
     }
 
     public function getId(): JobApplicationId

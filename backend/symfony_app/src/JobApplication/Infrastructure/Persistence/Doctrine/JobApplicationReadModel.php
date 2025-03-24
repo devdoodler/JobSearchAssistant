@@ -2,6 +2,7 @@
 
 namespace App\JobApplication\Infrastructure\Persistence\Doctrine;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -33,6 +34,10 @@ class JobApplicationReadModel
     #[ORM\Column(type: "string")]
     private string $event;
 
+    // One-to-many relationship with JobInterviewReadModel
+    #[ORM\OneToMany(targetEntity: JobInterviewReadModel::class, mappedBy: "jobApplication")]
+    private $jobInterviews;
+
     public function __construct(
         string $id,
         string $company,
@@ -51,6 +56,7 @@ class JobApplicationReadModel
         $this->comment = $comment;
         $this->version = $version;
         $this->event = $event;
+        $this->jobInterviews = new ArrayCollection();
     }
 
     // Getters and setters
@@ -112,5 +118,26 @@ class JobApplicationReadModel
     public function setEvent(string $event): void
     {
         $this->event = $event;
+    }
+
+    public function getJobInterviews(): ArrayCollection
+    {
+        return $this->jobInterviews;
+    }
+
+    public function addJobInterview(JobInterviewReadModel $jobInterview): void
+    {
+        if (!$this->jobInterviews->contains($jobInterview)) {
+            $this->jobInterviews[] = $jobInterview;
+            $jobInterview->setJobApplication($this); // Set the foreign key in JobInterviewReadModel
+        }
+    }
+
+    public function removeJobInterview(JobInterviewReadModel $jobInterview): void
+    {
+        if ($this->jobInterviews->contains($jobInterview)) {
+            $this->jobInterviews->removeElement($jobInterview);
+            $jobInterview->setJobApplication(null); // Remove the foreign key in JobInterviewReadModel
+        }
     }
 }

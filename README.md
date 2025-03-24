@@ -4,8 +4,11 @@
 
 Information is stored in events, so any moment in the job application lifecycle can be recreated.  
   
-Currently implemented events:
-` Add ` > ` Submit ` > ` Reject `  
+Currently implemented events:  
+` Add ` -> ` Submit `  
+-> ` Reject `  
+-> ` Schedule Interview `
+
 `Add` - add new application  
 ```json
 {  
@@ -31,7 +34,21 @@ Currently implemented events:
 }  
 ```
 
+`Schedule interview` - Scheduled Job Application Interview  
+```json
+{
+  "id": "e1341355-6f66-4f31-9812-d1a1927191e4",
+  "scheduleDate": "2025-02-28 12:00",
+  "interviewType": "Other",
+  "comment": ""
+}  
+```
+
 ## Versions
+
+### 0.2.0 Pre-alpha
+
+Added possibility to schedule interview.
 
 ### 0.1.0 Pre-alpha
 
@@ -77,3 +94,6 @@ And stop apache:
 ```
 sudo service apache2 stop
 ```
+## Bash
+
+`docker exec -it symfony_backend bash`

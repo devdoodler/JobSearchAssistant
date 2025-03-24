@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\JobApplication\Domain;
+namespace App\JobApplication\Domain\Events;
 
 use App\JobApplication\Domain\ValueObject\Comment;
-use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;
-use App\JobApplication\Domain\ValueObject\Details;
 use App\JobApplication\Domain\ValueObject\JobApplicationId;
-use App\JobApplication\Domain\ValueObject\Position;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Version;
 use DateTimeImmutable;
 
-final readonly class JobInterviewHeld extends DomainEvent
+final readonly class JobInterviewWasHeld extends DomainEvent
 {
     public const int EVENT_VERSION = 1;
 

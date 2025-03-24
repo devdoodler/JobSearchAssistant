@@ -35,6 +35,14 @@ body {
   font-size: 0.8rem;
 }
 
+.status-scheduled {
+  border: 1px solid #99ff00;
+  color: #99ff00;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
 .status-unknown {
   border: 1px solid #9e9e9e;
   color: #9e9e9e;

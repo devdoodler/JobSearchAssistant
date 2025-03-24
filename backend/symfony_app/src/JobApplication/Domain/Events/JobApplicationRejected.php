@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\JobApplication\Domain;
+namespace App\JobApplication\Domain\Events;
 
 use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\JobApplicationId;

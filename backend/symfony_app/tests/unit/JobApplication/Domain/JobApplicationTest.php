@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use App\JobApplication\Domain\Events\JobApplicationAdded;
+use App\JobApplication\Domain\Events\JobApplicationSubmitted;
 use App\JobApplication\Domain\JobApplication;
-use App\JobApplication\Domain\JobApplicationAdded;
-use App\JobApplication\Domain\JobApplicationSubmitted;
 use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;

@@ -31,6 +31,25 @@ readonly class JobApplicationService
         return $jobApplication;
     }
 
+    public function scheduleJobApplicationInterview(
+        string $id,
+               $scheduleDate,
+               $interviewType,
+               $comment
+    ): JobApplication {
+        $jobApplication = $this->reconstitute($id);
+
+        $jobApplication->interviewSchedule(
+            new JobApplicationId($id),
+            $scheduleDate,
+            $interviewType,
+            $comment);
+
+        $this->persistEvents($jobApplication);
+
+        return $jobApplication;
+    }
+
     public function submitJobApplication(
         string $id,
             $submitDate,

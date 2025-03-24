@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Persistence\Doctrine;
 
-use App\JobApplication\Domain\JobApplicationAdded;
-use App\JobApplication\Domain\JobApplicationRejected;
-use App\JobApplication\Domain\JobApplicationSubmitted;
+use App\JobApplication\Domain\Events\JobApplicationAdded;
+use App\JobApplication\Domain\Events\JobApplicationRejected;
+use App\JobApplication\Domain\Events\JobApplicationSubmitted;
+use App\JobApplication\Domain\Events\JobInterviewScheduled;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Repository\EventStoreRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping as ORM;
 
 class DoctrineEventStoreRepository implements EventStoreRepository
 {
@@ -78,6 +78,17 @@ class DoctrineEventStoreRepository implements EventStoreRepository
                     );
                     break;
 
+                case JobInterviewScheduled::EVENT_NAME:
+                    $events[] = new JobInterviewScheduled(
+                        $eventEntity->getAggregateId(),
+                        $eventEntity->getVersion(),
+                        $eventEntity->getOccurredAt(),
+                        $eventData['interviewId'],
+                        $eventData['type'],
+                        $eventData['interviewDate'],
+                        $eventEntity->getComment()
+                    );
+                    break;
                 default:
                     throw new \Exception('Unknown event type');
             }
@@ -93,11 +104,6 @@ class DoctrineEventStoreRepository implements EventStoreRepository
             ['aggregateId' => $aggregateId],
             ['version' => 'ASC']
         );
-
-//        $events = [];
-//        foreach ($eventEntities as $eventEntity) {
-//            $events[] = json_decode($eventEntity->getData(), true);
-//        }
 
         return $eventEntities;
     }

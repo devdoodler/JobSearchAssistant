@@ -5,6 +5,7 @@ namespace App\JobApplication\Interface\Http\Controller;
 use App\JobApplication\Application\JobApplicationReadService;
 use App\JobApplication\Application\JobApplicationService;
 use App\JobApplication\Domain\ValueObject\Company;
+use App\JobApplication\Domain\ValueObject\InterviewType;
 use App\JobApplication\Domain\ValueObject\Position;
 use App\JobApplication\Domain\ValueObject\Details;
 use App\JobApplication\Domain\ValueObject\Comment;
@@ -83,6 +84,38 @@ class JobApplicationController extends AbstractController
             return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    #[Route('/job-application/interview/schedule', name: 'job_application_interview_schedule', methods: ['POST'])]
+    public function interviewSchedule(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data || !isset($data['id'], $data['scheduleDate'], $data['interviewType'], $data['comment'])) {
+            return new JsonResponse(['error' => 'Invalid input data'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        $data['scheduleDate'] = str_replace('T', ' ', $data['scheduleDate']);
+        try {
+            $scheduleDate = DateTime::fromString($data['scheduleDate']);
+            $comment = Comment::create($data['comment']);
+            $interviewType = InterviewType::create($data['interviewType']);
+
+            $jobApplication = $this->jobApplicationService->scheduleJobApplicationInterview(
+                $data['id'],
+                $scheduleDate,
+                $interviewType,
+                $comment
+            );
+
+            return new JsonResponse(
+                ['message' => 'Job application interview scheduled successfully'],
+                JsonResponse::HTTP_OK
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     #[Route('/job-application/submit', name: 'job_application_submit', methods: ['POST'])]
     public function submit(Request $request): JsonResponse

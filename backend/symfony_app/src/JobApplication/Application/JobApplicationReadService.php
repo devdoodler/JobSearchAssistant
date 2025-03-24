@@ -3,10 +3,8 @@
 namespace App\JobApplication\Application;
 
 use App\JobApplication\Domain\Repository\JobApplicationReadModelRepositoryInterface;
-use App\JobApplication\Domain\ValueObject\DateTime;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEventStoreRepository;
 use App\Shared\Infrastructure\Persistence\Doctrine\EventEntity;
-use DateTimeImmutable;
 
 class JobApplicationReadService
 {
