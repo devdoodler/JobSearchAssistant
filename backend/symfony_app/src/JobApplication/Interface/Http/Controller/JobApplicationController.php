@@ -116,6 +116,33 @@ class JobApplicationController extends AbstractController
         }
     }
 
+    #[Route('/job-application/interview/held', name: 'job_application_interview_held', methods: ['POST'])]
+    public function interviewHeld(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!$data || !isset($data['id'], $data['interviewId'], $data['comment'])) {
+            return new JsonResponse(['error' => 'Invalid input data'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $comment = Comment::create($data['comment']);
+
+            $jobApplication = $this->jobApplicationService->jobApplicationInterviewWasHeld(
+                $data['id'],
+                $data['interviewId'],
+                $comment
+            );
+
+            return new JsonResponse(
+                ['message' => 'Job application interview held on added successfully'],
+                JsonResponse::HTTP_OK
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     #[Route('/job-application/submit', name: 'job_application_submit', methods: ['POST'])]
     public function submit(Request $request): JsonResponse

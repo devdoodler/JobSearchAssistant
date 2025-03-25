@@ -8,6 +8,7 @@ use App\JobApplication\Domain\Events\JobApplicationAdded;
 use App\JobApplication\Domain\Events\JobApplicationRejected;
 use App\JobApplication\Domain\Events\JobApplicationSubmitted;
 use App\JobApplication\Domain\Events\JobInterviewScheduled;
+use App\JobApplication\Domain\Events\JobInterviewWasHeld;
 use App\Shared\Domain\DomainEvent;
 use App\Shared\Domain\Repository\EventStoreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,8 +85,17 @@ class DoctrineEventStoreRepository implements EventStoreRepository
                         $eventEntity->getVersion(),
                         $eventEntity->getOccurredAt(),
                         $eventData['interviewId'],
-                        $eventData['type'],
-                        $eventData['interviewDate'],
+                        $eventData['scheduledDate'],
+                        $eventData['interviewType'],
+                        $eventEntity->getComment()
+                    );
+                    break;
+                case JobInterviewWasHeld::EVENT_NAME:
+                    $events[] = new JobInterviewWasHeld(
+                        $eventEntity->getAggregateId(),
+                        $eventEntity->getVersion(),
+                        $eventEntity->getOccurredAt(),
+                        $eventData['interviewId'],
                         $eventEntity->getComment()
                     );
                     break;

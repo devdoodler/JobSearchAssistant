@@ -8,6 +8,8 @@ export const getStatus = (eventName) => {
          return { status: 'Rejected', className: 'status-rejected' };
       case 'job_interview_scheduled':
          return { status: 'Scheduled', className: 'status-scheduled' };
+      case 'job_application_was_held':
+         return { status: 'Was held', className: 'status-was-held' };
       default:
          return { status: 'Unknown Status', className: 'status-unknown' };
    }

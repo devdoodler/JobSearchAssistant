@@ -24,7 +24,7 @@ class JobInterview
         InterviewType $interviewType,
         DateTime $interviewDate,
     ): self {
-        $this->interviewDate =  $interviewDate;
+        $this->interviewDate = $interviewDate;
         $this->type = $interviewType;
         $this->wasHeld = new WasHeld(false);
 

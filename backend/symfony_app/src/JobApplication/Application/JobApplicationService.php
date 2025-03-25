@@ -3,6 +3,7 @@
 namespace App\JobApplication\Application;
 
 use App\JobApplication\Domain\ValueObject\JobApplicationId;
+use App\JobApplication\Domain\ValueObject\JobInterviewId;
 use App\Shared\Domain\Repository\EventStoreRepository;
 use App\JobApplication\Domain\JobApplication;
 use Ramsey\Uuid\Guid\Guid;
@@ -43,6 +44,23 @@ readonly class JobApplicationService
             new JobApplicationId($id),
             $scheduleDate,
             $interviewType,
+            $comment);
+
+        $this->persistEvents($jobApplication);
+
+        return $jobApplication;
+    }
+
+    public function jobApplicationInterviewWasHeld(
+        string $id,
+               $interviewId,
+               $comment
+    ): JobApplication {
+        $jobApplication = $this->reconstitute($id);
+
+        $jobApplication->interviewWasHeld(
+            new JobApplicationId($id),
+            new JobInterviewId($interviewId),
             $comment);
 
         $this->persistEvents($jobApplication);

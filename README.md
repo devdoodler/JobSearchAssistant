@@ -7,7 +7,7 @@ Information is stored in events, so any moment in the job application lifecycle 
 Currently implemented events:  
 ` Add ` -> ` Submit `  
 -> ` Reject `  
--> ` Schedule Interview `
+-> ` Schedule Interview ` -> ` Interview was held `
 
 `Add` - add new application  
 ```json
@@ -43,6 +43,16 @@ Currently implemented events:
   "comment": ""
 }  
 ```
+
+`Interview was held` - Job Application Interview was held
+```json
+{
+  "id": "e1341355-6f66-4f31-9812-d1a1927191e4",
+  "interviewId": "84dd6866-b474-4b2b-8326-c8e32c5e8ddf",
+  "comment": ""
+}
+```
+
 
 ## Versions
 

@@ -7,6 +7,7 @@ use App\JobApplication\Domain\Events\JobApplicationAdded;
 use App\JobApplication\Domain\Events\JobApplicationRejected;
 use App\JobApplication\Domain\Events\JobApplicationSubmitted;
 use App\JobApplication\Domain\Events\JobInterviewScheduled;
+use App\JobApplication\Domain\Events\JobInterviewWasHeld;
 use App\JobApplication\Domain\ValueObject\Comment;
 use App\JobApplication\Domain\ValueObject\Company;
 use App\JobApplication\Domain\ValueObject\DateTime;
@@ -75,7 +76,7 @@ class JobApplication extends AggregateRoot
             $interviewType,
             $scheduleDate
         );
-        $this->interviews[] = $interview;
+        $this->interviews[$interviewId->toString()] = $interview;
 
         $this->record(
             JobInterviewScheduled::occur(
@@ -84,6 +85,25 @@ class JobApplication extends AggregateRoot
                 $interviewId,
                 $scheduleDate,
                 $interviewType,
+                $comment,
+            )
+        );
+
+        return $this;
+    }
+
+    public function interviewWasHeld(
+        JobApplicationId $id,
+        JobInterviewId $interviewId,
+        Comment $comment,
+    ): self {
+        $this->interviews[$interviewId->toString()]->wasHeld();
+
+        $this->record(
+            JobInterviewWasHeld::occur(
+                $id,
+                $this->version()->next(),
+                $interviewId,
                 $comment,
             )
         );
@@ -130,6 +150,7 @@ class JobApplication extends AggregateRoot
             JobApplicationRejected::class => $this->applyJobApplicationRejected($event),
             JobApplicationSubmitted::class => $this->applyJobApplicationSubmitted($event),
             JobInterviewScheduled::class => $this->applyJobInterviewScheduled($event),
+            JobInterviewWasHeld::class => $this->applyJobInterviewWasHeld($event),
             default => throw new InvalidEventException()
         };
     }
@@ -161,8 +182,17 @@ class JobApplication extends AggregateRoot
             DateTime::fromString($event->scheduledDate)
         );
 
+        $this->interviews[$interview->getId()->toString()] = $interview;
+        $this->comment = Comment::create($event->comment ?? '');
+    }
+
+    private function applyJobInterviewWasHeld(JobInterviewWasHeld $event): void
+    {
+        $interview = new JobInterview(new JobInterviewId($event->interviewId));
+        $interview->wasHeld();
+
         $this->interviews[] = $interview;
-//        $this->comment = Comment::create($event->comment ?? '');
+        $this->comment = Comment::create($event->comment ?? '');
     }
 
     public function getId(): JobApplicationId

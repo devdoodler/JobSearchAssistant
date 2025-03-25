@@ -6,6 +6,7 @@ use App\JobApplication\Domain\Events\JobApplicationAdded;
 use App\JobApplication\Domain\Events\JobApplicationRejected;
 use App\JobApplication\Domain\Events\JobApplicationSubmitted;
 use App\JobApplication\Domain\Events\JobInterviewScheduled;
+use App\JobApplication\Domain\Events\JobInterviewWasHeld;
 use App\JobApplication\Infrastructure\Persistence\Doctrine\JobApplicationReadModel;
 use App\JobApplication\Infrastructure\Persistence\Doctrine\JobInterviewReadModel;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,6 +28,7 @@ class JobApplicationEventListener implements EventSubscriberInterface
             JobApplicationRejected::class => 'onJobApplicationRejected',
             JobApplicationSubmitted::class => 'onJobApplicationSubmitted',
             JobInterviewScheduled::class => 'onJobInterviewScheduled',
+            JobInterviewWasHeld::class => 'onJobInterviewWasHeld',
         ];
     }
 
@@ -91,4 +93,25 @@ class JobApplicationEventListener implements EventSubscriberInterface
         $this->entityManager->persist($JobInterviewReadModel);
         $this->entityManager->flush();
     }
+
+    public function onJobInterviewWasHeld(JobInterviewWasHeld $event): void
+    {
+        /** @var JobApplicationReadModel $readModel */
+        $readModel = $this->entityManager->getRepository(JobApplicationReadModel::class)->find($event->aggregateId);
+        if ($readModel) {
+            $readModel->setComment($event->comment);
+            $readModel->setEvent(JobInterviewWasHeld::EVENT_NAME);
+            $this->entityManager->flush();
+        }
+
+        /** @var JobInterviewReadModel $jobInterviewReadModel */
+        $jobInterviewReadModel = $this->entityManager->getRepository(JobInterviewReadModel::class)
+            ->find($event->interviewId);
+        if ($jobInterviewReadModel) {
+            $jobInterviewReadModel->setWasHeld(true);
+            $this->entityManager->flush();
+        }
+    }
+
+
 }
