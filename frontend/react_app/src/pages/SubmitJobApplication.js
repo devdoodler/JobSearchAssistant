@@ -44,7 +44,7 @@ export default function SubmitJobApplication() {
     }, [jobId]);
 
     return (
-        <div>
+        <div style={{paddingTop: "130px"}}>
             <h2>Submit Job Application</h2>
             <form onSubmit={handleSubmit}>
                 <div>
