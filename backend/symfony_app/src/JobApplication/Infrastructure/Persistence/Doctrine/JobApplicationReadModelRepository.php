@@ -21,6 +21,13 @@ class JobApplicationReadModelRepository implements JobApplicationReadModelReposi
             ->findAll();
     }
 
+    public function findSorted(): array
+    {
+        return $this->entityManager
+            ->getRepository(JobApplicationReadModel::class)
+            ->findBy([], ['company' => 'ASC']);
+    }
+
     public function findById(string $id): ?JobApplicationReadModel
     {
         return $this->entityManager

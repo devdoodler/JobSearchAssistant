@@ -15,7 +15,7 @@ class JobApplicationReadService
 
     public function getJobApplicationsList(): array
     {
-        $jobApplications = $this->jobApplicationReadModelRepository->findAll();
+        $jobApplications = $this->jobApplicationReadModelRepository->findSorted();
 
         return array_map(function ($jobApplication) {
             return [

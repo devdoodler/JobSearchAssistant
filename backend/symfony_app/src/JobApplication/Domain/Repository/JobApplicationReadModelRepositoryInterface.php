@@ -8,5 +8,7 @@ interface JobApplicationReadModelRepositoryInterface
 {
     public function findAll(): array;
 
+    public function findSorted(): array;
+
     public function findById(string $id): ?JobApplicationReadModel;
 }
