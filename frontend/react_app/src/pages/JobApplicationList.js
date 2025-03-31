@@ -4,7 +4,7 @@ import request from "../utils/request";
 import { getStatus } from "../utils/statusUtils";
 import { Card, Button, ListGroup, Spinner } from 'react-bootstrap';
 
-export default function Homepage() {
+export default function JobApplicationList() {
     const [jobApplications, setJobApplications] = useState([]);
     const [loading, setLoading] = useState(true); // Add a loading state
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Homepage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await request.get('/job-application/list/submit/3');
+                const response = await request.get('/job-application/list');
                 setJobApplications(response.data.jobApplications);
             } catch (error) {
                 console.log('Error fetching data', error);

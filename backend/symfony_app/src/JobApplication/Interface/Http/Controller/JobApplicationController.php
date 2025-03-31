@@ -188,6 +188,21 @@ class JobApplicationController extends AbstractController
         }
     }
 
+    #[Route('/job-application/list/submit/{limit}', name: 'job_application_list_submit', methods: ['GET'])]
+    public function listBySubmitDate(int $limit): JsonResponse
+    {
+        try {
+            $jobApplications = $this->jobApplicationReadService->getJobApplicationsListBySubmitDate($limit);
+
+            return new JsonResponse(
+                ['jobApplications' => $jobApplications],
+                JsonResponse::HTTP_OK
+            );
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     #[Route('/job-application/{id}', name: 'job_application_details', methods: ['GET'])]
     public function details(string $id): JsonResponse
     {

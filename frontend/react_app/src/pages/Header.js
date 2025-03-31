@@ -18,7 +18,7 @@ function Header() {
                         <Nav.Link as={Link} to="/job-application">
                             Add New Application
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/">
+                        <Nav.Link as={Link} to="/job-application/list">
                             Show All Applications
                         </Nav.Link>
                         <Nav.Link href="#search" style={{ display: 'none' }}>

@@ -6,6 +6,7 @@ import JobApplication from './pages/JobApplication';
 import RejectJobApplication from "./pages/RejectJobApplication";
 import SubmitJobApplication from "./pages/SubmitJobApplication";
 import JobApplicationDetails from "./pages/JobApplicationDetails";
+import JobApplicationList from "./pages/JobApplicationList";
 import ScheduleJobApplication from "./pages/ScheduleJobApplication";
 import WasHeldJobApplication from "./pages/WasHeldJobApplication";
 
@@ -18,6 +19,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/job-application" element={<JobApplication />} />
+                    <Route path="/job-application/list" element={<JobApplicationList />} />
                     <Route path="/job-application/reject/:jobId" element={<RejectJobApplication />} />
                     <Route path="/job-application/schedule/:jobId" element={<ScheduleJobApplication />} />
                     <Route path="/job-application/held/:jobId/:interviewId" element={<WasHeldJobApplication />} />

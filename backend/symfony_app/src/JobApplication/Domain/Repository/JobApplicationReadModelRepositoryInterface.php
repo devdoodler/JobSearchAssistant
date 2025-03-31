@@ -10,5 +10,7 @@ interface JobApplicationReadModelRepositoryInterface
 
     public function findSorted(): array;
 
+    public function findSortedBySubmitDate(int $limit): array;
+
     public function findById(string $id): ?JobApplicationReadModel;
 }

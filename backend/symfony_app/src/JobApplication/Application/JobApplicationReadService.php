@@ -28,6 +28,20 @@ class JobApplicationReadService
         }, $jobApplications);
     }
 
+    public function getJobApplicationsListBySubmitDate(int $limit): array
+    {
+        $jobApplications = $this->jobApplicationReadModelRepository->findSortedBySubmitDate($limit);
+
+        return array_map(function ($jobApplication) {
+            return [
+                'id' => $jobApplication->getId(),
+                'company' => $jobApplication->getCompany(),
+                'submitDate' => $jobApplication->getSubmitDate(),
+                'eventName' => $jobApplication->getEvent(),
+                'comment' => $jobApplication->getComment(),
+            ];
+        }, $jobApplications);
+    }
 
     public function getJobApplicationDetails(string $id): ?array
     {
