@@ -57,7 +57,7 @@ export default function JobApplicationDetails() {
     const parseEventData = (eventDataString) => {
         try {
             const parsedData = JSON.parse(eventDataString);
-            const { aggregateId, name, number, version, occurredAt, ...rest } = parsedData;
+            const { aggregateId, name, number, version, occurredAt, comment, ...rest } = parsedData;
             return rest;
         } catch (error) {
             console.error('Error parsing event data:', error);
