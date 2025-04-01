@@ -29,7 +29,7 @@ export default function JobApplicationList() {
     };
 
     return (
-        <div style={{ paddingTop: "130px" }}>
+        <div>
             <h1>Your applications</h1>
             {loading ? (
                 <div className="text-center">

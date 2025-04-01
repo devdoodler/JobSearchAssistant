@@ -1,5 +1,5 @@
 # Job search assistant
-
+![jba logo](frontend/react_app/src/assets/jsa-logo-btr.svg)
 ### Assistant for jobseekers. Stores data and status of submitted job applications 
 
 Information is stored in events, so any moment in the job application lifecycle can be recreated.  

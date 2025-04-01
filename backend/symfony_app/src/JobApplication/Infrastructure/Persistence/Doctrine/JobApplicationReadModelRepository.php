@@ -30,25 +30,28 @@ class JobApplicationReadModelRepository implements JobApplicationReadModelReposi
 
     public function findSortedBySubmitDate(?int $limit = null): array
     {
-        $queryBuilder = $this->entityManager
-            ->getRepository(JobApplicationReadModel::class)
-            ->createQueryBuilder('j')
-            ->select('DISTINCT j.submitDate')
-            ->orderBy('j.submitDate', 'DESC');
+        $sql = "
+        SELECT DISTINCT DATE(j.submit_date) AS submitDate
+        FROM job_applications j
+        ORDER BY submitDate DESC
+    ";
 
         if ($limit !== null) {
-            $queryBuilder->setMaxResults($limit);
+            $sql .= " LIMIT " . $limit;
         }
 
-        $distinctDates = $queryBuilder->getQuery()->getResult();
+        $distinctDates = $this->entityManager->getConnection()->fetchAllAssociative($sql);
+
+        $paramDates = array_map(function($date) {
+            return $date['submitDate'];
+        }, $distinctDates);
 
         $queryBuilder = $this->entityManager
             ->getRepository(JobApplicationReadModel::class)
             ->createQueryBuilder('j')
-            ->where('j.submitDate IN (:dates)')
-            ->setParameter('dates', array_map(function($date) {
-                return $date['submitDate'];
-            }, $distinctDates))
+            ->where('j.submitDate BETWEEN :dateMin AND :dateMax')
+            ->setParameter('dateMin', $paramDates[array_key_last($paramDates)] . ' 00:00')
+            ->setParameter('dateMax', $paramDates[0] . ' 23:59')
             ->orderBy('j.submitDate', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();

@@ -86,7 +86,7 @@ export default function JobApplicationDetails() {
     };
 
     return (
-        <div style={{paddingTop: "130px", whiteSpace: "pre-wrap"}}>
+        <div style={{whiteSpace: "pre-wrap"}}>
             <h1>Job Application Details</h1>
             <p><strong>Company:</strong> {jobApplication.company}</p>
             <p><strong>Status:</strong>{' '}

@@ -21,7 +21,6 @@ class JobInterviewReadModel
     #[ORM\Column(type: "boolean")]
     private bool $wasHeld;
 
-    // Foreign key relationship with JobApplicationReadModel (Many JobInterviews can belong to one JobApplication)
     #[ORM\ManyToOne(targetEntity: JobApplicationReadModel::class, inversedBy: "jobInterviews")]
     #[ORM\JoinColumn(name: "job_application_id", referencedColumnName: "id", nullable: false)]
     private JobApplicationReadModel $jobApplication;
@@ -31,13 +30,13 @@ class JobInterviewReadModel
         string $interviewType,
         string $interviewDate,
         bool $wasHeld,
-        JobApplicationReadModel $jobApplication, // Ensure JobApplicationReadModel is passed to the constructor
+        JobApplicationReadModel $jobApplication,
     ) {
         $this->id = $id;
         $this->interviewType = $interviewType;
         $this->interviewDate = $interviewDate;
         $this->wasHeld = $wasHeld;
-        $this->jobApplication = $jobApplication; // Set the foreign key reference
+        $this->jobApplication = $jobApplication;
     }
 
     public function getId(): string
