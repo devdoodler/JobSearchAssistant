@@ -57,6 +57,30 @@ class JobApplicationReadModelRepository implements JobApplicationReadModelReposi
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function findTotalBySubmitDate(): array
+    {
+        $sql = "
+            SELECT count(j.id) AS totalSubmits, DATE(j.submit_date) as submitDate
+            FROM job_applications j
+            WHERE j.submit_date IS NOT NULL
+            GROUP BY DATE(j.submit_date)
+            ORDER BY submitDate DESC
+        ";
+
+        return $this->entityManager->getConnection()->fetchAllAssociative($sql);
+    }
+
+    public function findTotalByEvent(): array
+    {
+        $sql = "
+            select count(j.id) AS total, j.event
+            FROM job_applications j
+            GROUP BY j.event;
+        ";
+
+        return $this->entityManager->getConnection()->fetchAllAssociative($sql);
+    }
+
     public function findById(string $id): ?JobApplicationReadModel
     {
         return $this->entityManager
