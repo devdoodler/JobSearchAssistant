@@ -43,5 +43,12 @@ Content-Type: application/json
 ### Get Job Application (GET /job-application/list)
 GET http://localhost/job-application/list
 
+### Get Submited Job Application by date (GET /job-application/list/submit/{limit})
+GET http://localhost/job-application/list/submit/3
+
+### Get number of submited job applications by date (GET /job-application/list/submit/total)
+GET http://localhost/job-application/list/submit/total
+
+
 ### Get Job Application details (GET /job-application/{id})
 GET http://localhost/job-application/{id}
