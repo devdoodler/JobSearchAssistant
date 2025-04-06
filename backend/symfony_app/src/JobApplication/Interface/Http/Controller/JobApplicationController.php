@@ -218,6 +218,21 @@ class JobApplicationController extends AbstractController
         }
     }
 
+    #[Route('/job-application/list/event/count', name: 'job_application_list_count_events', methods: ['GET'])]
+    public function listCountEvents(): JsonResponse
+    {
+        try {
+            $jobApplicationsEventCounted = $this->jobApplicationReadService->getJobApplicationsListEventCount();
+
+            return new JsonResponse(
+                ['jobApplicationsEventCount' => $jobApplicationsEventCounted],
+                JsonResponse::HTTP_OK
+            );
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     #[Route('/job-application/{id}', name: 'job_application_details', methods: ['GET'])]
     public function details(string $id): JsonResponse
     {

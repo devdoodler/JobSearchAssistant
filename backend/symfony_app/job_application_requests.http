@@ -49,6 +49,8 @@ GET http://localhost/job-application/list/submit/3
 ### Get number of submited job applications by date (GET /job-application/list/submit/total)
 GET http://localhost/job-application/list/submit/total
 
+### Get number of job applications in event (GET /job-application/list/event/count)
+GET http://localhost/job-application/list/event/count
 
 ### Get Job Application details (GET /job-application/{id})
 GET http://localhost/job-application/{id}

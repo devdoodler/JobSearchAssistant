@@ -14,5 +14,7 @@ interface JobApplicationReadModelRepositoryInterface
 
     public function findTotalBySubmitDate(): array;
 
+    public function findTotalByEvent(): array;
+
     public function findById(string $id): ?JobApplicationReadModel;
 }

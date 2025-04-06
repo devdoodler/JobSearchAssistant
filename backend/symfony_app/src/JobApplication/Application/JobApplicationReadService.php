@@ -48,6 +48,11 @@ class JobApplicationReadService
         return $this->jobApplicationReadModelRepository->findTotalBySubmitDate();
     }
 
+    public function getJobApplicationsListEventCount(): array
+    {
+        return $this->jobApplicationReadModelRepository->findTotalByEvent();
+    }
+
     public function getJobApplicationDetails(string $id): ?array
     {
         $jobApplication = $this->jobApplicationReadModelRepository->findById($id);
