@@ -52,7 +52,7 @@ export default function LastApplications() {
     function ApplicationDateRow({ date }) {
         return (
             <ListGroup.Item
-                key={date }
+                key={ date }
                 className="d-flex justify-content-start align-items-center"
             >
                 <div>{date}</div>
@@ -83,7 +83,7 @@ export default function LastApplications() {
 
     return (
         <div>
-            <h2>Last applications</h2>
+            <h3>Last applications</h3>
             {loading ? (
                 <div className="text-center">
                     <Spinner animation="border" role="status" />

@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from 'react-router';
-import './styles.css';
+import './styles.scss';
 import Homepage from "./pages/Homepage";
 import Header from './pages/Header';
 import JobApplication from './pages/JobApplication';
