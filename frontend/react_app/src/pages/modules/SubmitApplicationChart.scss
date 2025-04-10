@@ -15,14 +15,18 @@
 }
 .bar-inner {
   width: 100%;
-  background-color: rgba(75, 192, 192, 0.7);
-  border-radius: 5px;
-  transition: height 0.5s ease-in-out; /* Smooth transition */
+  background-color: rgba(150,50,50,100);
 }
+.bar-inner-top {
+  width: 100%;
+}
+
 .bar span {
   position: absolute;
-  bottom: -20px;
-  font-size: 12px;
+  left: -40px;
+  font-size: 10px;
   color: #333;
-  width: 100%;
+  width: 90px;
+  top: 110%;
+  transform: rotate(-90deg);
 }

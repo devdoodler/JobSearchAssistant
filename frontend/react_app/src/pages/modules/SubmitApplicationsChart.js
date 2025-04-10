@@ -36,11 +36,15 @@ export default function EventBarChart() {
                 {chartData.map((item) => {
                     const barHeight = (item.totalSubmits / maxSubmits) * 100;
                     return (
-                        <div key={item.submitDate} className="bar">
+                        <div key={item.submitDate} className="bar" style={{height: `100%`}}>
+                            <div
+                                className="bar-inner-top"
+                                style={{height: `${100-barHeight}%`}}
+                            ></div>
                             <div
                                 className="bar-inner"
-                                style={{ height: `${barHeight}%` }}
-                            >s</div>
+                                style={{height: `${barHeight}%`}}
+                            ></div>
                             <span>{item.submitDate}</span>
                         </div>
                     );
