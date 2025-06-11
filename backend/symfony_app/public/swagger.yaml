@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Job Search Assistant
+  version: 0.2.0
+  description: Assistant for jobseekers. Stores data and status of submitted job applications
+servers:
+  - url: http://localhost:8000
+    description: Lokalny serwer developerski
+
+paths:
+  /job-application/add:
+    post:
+      summary: Add Job Application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJobInput'
+      responses:
+        '201':
+          description: Job added successfully
+
+components:
+  schemas:
+    AddJobInput:
+      type: object
+      properties:
+        "company":
+          type: string
+          example: "Tech Company"
+        "position":
+          type: string
+          example: "Software Engineer"
+        "details":
+          type: string
+          example: "A description of the job."
+        "comment":
+          type: string
+          example: ""
