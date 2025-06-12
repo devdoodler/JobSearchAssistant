@@ -19,7 +19,48 @@ paths:
               $ref: '#/components/schemas/AddJobInput'
       responses:
         '201':
-          description: Job added successfully
+          description: Job application added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddJob'
+  /job-application/{id}:
+    get:
+      summary: Get single job application by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A single job application with its history of events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_application:
+                    $ref: '#/components/schemas/JobApplication'
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobApplicationEvent'
+  /job-application/list:
+    get:
+      summary: Get list of Job Applications
+      responses:
+        '200':
+          description: A list of job applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetJob'
+
 
 components:
   schemas:
@@ -38,3 +79,76 @@ components:
         "comment":
           type: string
           example: ""
+    AddJob:
+      type: object
+      properties:
+        "message":
+          type: string
+          example: "Job application added successfully"
+        "id":
+          type: string
+          example: "9fd887af-e935-41e4-bd1e-d0e7e4057ccb"
+    GetJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "cea17e23-3d4e-437c-8325-3ce321a2bf0d"
+        company:
+          type: string
+          example: "Company"
+        submitDate:
+          type: string
+          format: date-time
+          example: "2025-03-07 12:25"
+        eventName:
+          type: string
+          example: "job_application_submitted"
+        comment:
+          type: string
+          example: "Example comment"
+    JobApplication:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "288de407-d956-40c0-8da2-47a5f30bcb6d"
+        company:
+          type: string
+          example: "Company"
+        position:
+          type: string
+          example: "PHP dev"
+        details:
+          type: string
+          example: "Detailed job application info..."
+        submitDate:
+          type: string
+          example: "2025-01-01 16:00"
+        comment:
+          type: string
+          example: "Example comment."
+        status:
+          type: string
+          example: "job_application_submitted"
+    JobApplicationEvent:
+      type: object
+      properties:
+        event_name:
+          type: string
+          example: "job_application_submitted"
+        version:
+          type: integer
+          example: 1
+        occurred_at:
+          type: string
+          example: "2025-01-01 23:00"
+        data:
+          type: string
+          description: JSON string representing the event data
+        comment:
+          type: string
+          nullable: true
+          example: "Example comment"
