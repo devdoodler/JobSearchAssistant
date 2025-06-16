@@ -24,6 +24,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AddJob'
+  /job-application/interview/schedule:
+    post:
+      summary: Schedule Job Application Interview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleJobInterviewInput'
+      responses:
+        '200':
+          description: Job application interview scheduled successfully'
   /job-application/{id}:
     get:
       summary: Get single job application by ID
@@ -88,6 +100,24 @@ components:
         "id":
           type: string
           example: "9fd887af-e935-41e4-bd1e-d0e7e4057ccb"
+    ScheduleJobInterviewInput:
+      type: object
+      properties:
+        "id":
+          type: string
+          format: uuid
+          example: "e1341355-6f66-4f31-9812-d1a1927191e4"
+          description: "Job id"
+        "scheduleDate":
+          type: string
+          description: "date in format: YYYY-MM-DD HH:MM"
+          example: "2025-02-28 12:00"
+        "interviewType":
+          type: string
+          example: "Other"
+        "comment":
+          type: string
+          example: ""
     GetJob:
       type: object
       properties:
